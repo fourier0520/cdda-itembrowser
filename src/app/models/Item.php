@@ -418,6 +418,11 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getContains()
     {
+        if (!isset($this->data->contains))
+          return 0;
+        if (preg_match('/(\d+(\.\d+)?)L$/', $this->data->contains, $matches, PREG_OFFSET_CAPTURE)) {
+            return (float)$this->data->contains;
+        }
         return $this->data->contains/4.0;
     }
 
