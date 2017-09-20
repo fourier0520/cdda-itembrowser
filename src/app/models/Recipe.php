@@ -96,7 +96,7 @@ class Recipe implements Robbo\Presenter\PresentableInterface
             return array(
                 "quality" => $this->repo->getModel("Quality", $quality->id),
                 "level" => $quality->level,
-                "amount" => $quality->amount,
+                "amount" => isset($quality->amount) ? $quality->amount : 1,
             );
         }, $this->data->qualities);
     }
