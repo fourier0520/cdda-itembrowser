@@ -1,5 +1,5 @@
 #!/bin/sh
-# exit on error
+11;rgb:0000/0000/0000# exit on error
 set -e
 
 # get the absolute path to the data files
@@ -17,6 +17,9 @@ fi
 
 echo "Unzipping..."
 unzip -qo master.zip
+
+#transrate en2ja
+perl ./tools/json_translate.pl ./Cataclysm-DDA-master
 
 # download php dependencies
 composer -d=src install
