@@ -1,5 +1,5 @@
 #!/bin/sh
-11;rgb:0000/0000/0000# exit on error
+# exit on error
 set -e
 
 # get the absolute path to the data files
