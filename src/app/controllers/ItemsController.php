@@ -156,6 +156,18 @@ class ItemsController extends BaseController
         $this->layout->nest('content', "items.flags", compact("items", "flags", "id"));
     }
 
+    public function techniques($id = null)
+    {
+        $techniques = $this->repo->raw("techniques");
+
+        if ($id === null) {
+            return Redirect::route(Route::currentRouteName(), array(reset($techniques)));
+        }
+        $items = $this->repo->allModels("Item", "technique.$id");
+
+        $this->layout->nest('content', "items.techniques", compact("items", "techniques", "id"));
+    }
+
     public function skills($id = null, $level = 1)
     {
         $skills = $this->repo->raw("skills");

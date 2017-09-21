@@ -99,6 +99,7 @@ class Item implements IndexerInterface
         }
         
         $repo->sort("flags");
+        $repo->sort("techniques");
         $repo->sort("gunmodParts");
         $repo->sort("gunmodSkills");
         $repo->sort("armorParts");
@@ -229,6 +230,14 @@ class Item implements IndexerInterface
             foreach ($flags as $flag) {
                 $repo->append("flag.$flag", $object->id);
                 $repo->addUnique("flags", $flag);
+            }
+        }
+
+        if (isset($object->techniques)) {
+            $techniques = (array) $object->techniques;
+            foreach ($techniques as $technique) {
+                $repo->append("technique.$technique", $object->id);
+                $repo->addUnique("techniques", $technique);
             }
         }
     }
