@@ -27,6 +27,7 @@
       @if ($item->hasFlags)
       Flags: {{ $item->flags }}<br>
       @endif
+      Techniquess: {{ $item->techniques }}<br>
       @foreach ($item->qualities as $quality)
       Has level {{{ $quality["level"] }}} <a href="{{ route("item.qualities", $quality["quality"]->id) }}">{{{ $quality["quality"]->name }}}</a> quality.<br>
       @endforeach

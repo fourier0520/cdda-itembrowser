@@ -35,6 +35,7 @@ class HomeController extends BaseController
             $qualities = $this->repo->raw("qualities");
             $materials = $this->repo->raw("materials");
             $flags = $this->repo->raw("flags");
+            $techniques = $this->repo->raw("techniques");
             $skills = $this->repo->raw("skills");
             $consumables = $this->repo->raw("consumables");
             $monsterGroups = $this->repo->allModels("MonsterGroup", "monstergroups");
@@ -45,7 +46,7 @@ class HomeController extends BaseController
 
             return gzcompress((string) View::make('sitemap', compact('items',
                 'armorParts', 'gunSkills', 'bookTypes', 'qualities',
-                'materials', 'flags', 'skills', 'consumables',
+                'materials', 'flags', 'techniques', 'skills', 'consumables',
                 'monsterGroups', 'monsterSpecies', 'monsters')));
         });
         $this->layout = gzuncompress($sitemap);

@@ -5,8 +5,7 @@ use File::Basename;
 use File::Path;
 use File::Find;
 
-my $indir = "./json/";
-my $outdir = "./out/";
+my $cddadir = $ARGV[0];
 
 my @files;
 
@@ -19,7 +18,7 @@ my @files;
     my $str;
     my $mode = 0;
 
-    open ($in, "<ja.po");
+    open ($in, "<$cddadir/lang/po/ja.po");
     foreach my $line (<$in>) {
       if ($line =~ /^msgid\s+\"(.*)\"$/) {
         $id = $1;
@@ -49,7 +48,7 @@ find sub {
     my $file = $_;
     my $path = $File::Find::name;
     push (@files, $path);
-}, $indir;
+}, "$cddadir/data/json";
 
 foreach my $file (@files) {
     if (-d $file) {
@@ -119,8 +118,8 @@ foreach my $file (@files) {
 
     my $j = JSON->new->pretty(1); 
     my $json_text = $j->encode( $json2ref ) ;
-    mkpath(dirname("$outdir$file"));
-    open ($out, ">$outdir$file");
+    mkpath(dirname("$file"));
+    open ($out, ">$file");
     print $out $json_text;
     close $out;
 }

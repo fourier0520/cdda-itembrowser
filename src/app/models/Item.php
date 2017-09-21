@@ -41,6 +41,13 @@ class Item implements Robbo\Presenter\PresentableInterface
                 $data->flags = array_flip((array) $data->flags);
             }
         }
+        if (!isset($data->techniques)) {
+            $data->techniques = array();
+        } else {
+            if (isset($data->techniques[0])) {
+                $data->techniques = array_flip((array) $data->techniques);
+            }
+        }
         if (!isset($data->qualities)) {
             $data->qualities = array();
         }
@@ -110,7 +117,8 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function count($type)
     {
-        return $this->repo->raw("item.count.$this->id.$type", 0);
+        $ret = $this->repo->raw("item.count.$this->id.$type", 0);
+        return is_array($ret) ? 0 : $ret;
     }
 
     public function getToolCategories()
@@ -203,6 +211,9 @@ class Item implements Robbo\Presenter\PresentableInterface
             return;
         }
         if ($this->isAmmo) {
+	    if (!isset($this->data->count)) {
+	        return $this->data->weight;
+	    }
             return $this->data->weight*$this->data->count;
         }
 
@@ -313,6 +324,11 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function hasFlag($flag)
     {
         return isset($this->flags[$flag]);
+    }
+
+    public function hasTechnique($technique)
+    {
+        return isset($this->techniques[$technique]);
     }
 
     public function getQualities()
