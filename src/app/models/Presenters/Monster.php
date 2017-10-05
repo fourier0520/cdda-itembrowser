@@ -22,6 +22,11 @@ class Monster extends \Robbo\Presenter\Presenter
         return implode(", ", $this->object->flags);
     }
 
+    public function presentMaterial()
+    {
+        return implode(", ", $this->object->material);
+    }
+
     public function presentDeathFunction()
     {
         $death = (array) $this->object->death_function;
