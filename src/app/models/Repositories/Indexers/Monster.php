@@ -2,6 +2,7 @@
 namespace Repositories\Indexers;
 
 use Repositories\RepositoryWriterInterface;
+use CustomUtility\ValueUtil;
 
 class Monster implements IndexerInterface
 {
@@ -11,29 +12,33 @@ class Monster implements IndexerInterface
 
     public function onNewObject(RepositoryWriterInterface $repo, $object)
     {
-            if ($object->type == "MONSTER") {
+        if ($object->type == "MONSTER") {
+            $repo->append(self::DEFAULT_INDEX, $object->id);
+            $repo->set(self::DEFAULT_INDEX.".".$object->id, $object->repo_id);
+            $objspecies = (array) $object->species;
+            foreach ($objspecies as $species) {
+                $repo->append("monster.species.$species", $object->id);
+                $repo->addUnique("monster.species", $species);
+            }
 
-                // skip objects without an ID    
-                if(!isset($object->id)) return;
+            ValueUtil::SetDefault($object, "melee_skill", 0);
+            ValueUtil::SetDefault($object, "melee_dice_sides", 0);
+            ValueUtil::SetDefault($object, "melee_cut", 0);
+            ValueUtil::SetDefault($object, "melee_dice", 0);
+            ValueUtil::SetDefault($object, "aggression", 0);
+            ValueUtil::SetDefault($object, "morale", 0);
 
-                $repo->append(self::DEFAULT_INDEX, $object->id);
-                $repo->set(self::DEFAULT_INDEX.".".$object->id, $object->repo_id);
-
-                // define a default "none" species
-                if(!isset($object->species))  $object->species = "none";
-
-                $objspecies = (array) $object->species;
-                foreach ($objspecies as $species) {
-                    $repo->append("monster.species.$species", $object->id);
-                    $repo->addUnique("monster.species", $species);
-                }
-
-                return;
+            return;
         }
     }
 
     public function onFinishedLoading(RepositoryWriterInterface $repo)
     {
+        $starttime = microtime(true);
+
         $repo->sort("monster.species");
+
+        $timediff = microtime(true) - $starttime;
+        print "Monster post-processing $timediff s.\n";
     }
 }

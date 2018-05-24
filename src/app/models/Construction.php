@@ -15,12 +15,14 @@ class Construction implements Robbo\Presenter\PresentableInterface
     public function load($data)
     {
         $this->data = $data;
-        if($this->requiresQualities && !is_null($data->qualities))
+        if($this->requiresQualities)
         foreach($data->qualities as $group) {
-	    if(!is_null($group))
-            foreach($group as &$q) {
-	        if(isset($q->quality) && !is_null($q->quality))
-                $q->quality = $this->repo->getModel("Quality", $q->id);
+            if (is_array($group)){
+                foreach($group as &$q) {
+                    $q->quality = $this->repo->getModel("Quality", $q->id);
+                }
+            }else{
+                $group->quality = $this->repo->getModel("Quality", $group->id);
             }
         }
         if($this->requiresTools)
