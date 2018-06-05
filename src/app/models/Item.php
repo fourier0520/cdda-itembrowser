@@ -41,13 +41,6 @@ class Item implements Robbo\Presenter\PresentableInterface
                 $data->flags = array_flip((array) $data->flags);
             }
         }
-        if (!isset($data->techniques)) {
-            $data->techniques = array();
-        } else {
-            if (isset($data->techniques[0])) {
-                $data->techniques = array_flip((array) $data->techniques);
-            }
-        }
         if (!isset($data->qualities)) {
             $data->qualities = array();
         }
@@ -322,11 +315,6 @@ class Item implements Robbo\Presenter\PresentableInterface
         return isset($this->flags[$flag]);
     }
 
-    public function hasTechnique($technique)
-    {
-        return isset($this->techniques[$technique]);
-    }
-
     public function getQualities()
     {
         return array_map(function ($quality) {
@@ -386,6 +374,11 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function getHasFlags()
     {
         return count($this->flags)>0;
+    }
+
+    public function getHasTechniques()
+    {
+        return count($this->techniques)>0;
     }
 
     public function getDamagePerMove()

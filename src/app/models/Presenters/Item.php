@@ -97,19 +97,6 @@ class Item extends \Robbo\Presenter\Presenter
         }, $invert));
     }
 
-    public function presentTechniques()
-    {
-        $invert = array_flip($this->object->techniques);
-
-        if (empty($invert)) {
-            return "None";
-        }
-
-        return implode(", ", array_map(function ($technique) {
-            return link_to_route("item.techniques", $technique, $technique);
-        }, $invert));
-    }
-
     public function presentFeatureLabels()
     {
         $badges = array();
@@ -224,5 +211,15 @@ class Item extends \Robbo\Presenter\Presenter
     public function presentContains()
     {
         return number_format($this->object->contains, 2);
+    }
+
+    public function presentTechniques()
+    {
+        $techs = (array) $this->object->techniques;
+        if (empty($techs)) {
+            return "";
+        }
+
+        return implode(", ", $techs);
     }
 }
