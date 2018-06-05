@@ -1,9 +1,6 @@
 @section('title')
 Consumables - Cataclysm: Dark Days Ahead
 @endsection
-<style type="text/css">
-tr:nth-child(2n) {background-color:#1C1C1C}
-</style>
 <h1>Consumables</h1>
 
 <ul class="nav nav-tabs">
@@ -16,15 +13,12 @@ tr:nth-child(2n) {background-color:#1C1C1C}
   <tr>
     <th></th>
     <th>Name</th>
-    <th><span title="Servings">Serv</span></th>
-    <th><span title="Quench per Serving">Quen</span></th>
-    <th><span title="Nutrition per Serving">Nt</span></th>
-    <th><span title="Total Quench">T.Quen</span></th>
-    <th><span title="Total Nutrition">T.Nt</span></th>
-    <th><span title="Days to spoil">Spoil</span></th>
-    <th><span title="Stimulant">Stim</span></th>
+    <th>Quench</th>
+    <th><span title="Nutrition">Nut</span></th>
+    <th><span title="Days to spoil">Spo</span></th>
+    <th><span title="Stimulant">Sti</span></th>
     <th><span title="Health">Hea</span></th>
-    <th><span title="Addiction">Adi</span></th>
+    <th><span title="Adiction">Adi</span></th>
     <th>Fun</th>
   </tr>
 </thead>
@@ -32,11 +26,8 @@ tr:nth-child(2n) {background-color:#1C1C1C}
 <tr>
   <td>{{ $item->symbol }}</td>
   <td><a href="{{route('item.view', $item->id)}}">{{ $item->name }}</a></td>
-  <td>{{ $item->charges }}</td>
   <td>{{ $item->quench }}</td>
   <td>{{ $item->nutrition }}</td>
-  <td>{{ $item->quench * $item->charges }}</td>
-  <td>{{ $item->nutrition * $item->charges }}</td>
   <td>{{ $item->spoils_in }}</td>
   <td>{{ $item->stim }}</td>
   <td>{{ $item->healthy }}</td>
@@ -50,11 +41,11 @@ tr:nth-child(2n) {background-color:#1C1C1C}
 $(function() {
     $(".tablesorter").tablesorter({
 @if ($type=="drink")
-      sortList: [[3,1]]
+      sortList: [[1,1]]
 @elseif ($type=="food")
-      sortList: [[4,1]]
+      sortList: [[2,1]]
 @else
-      sortList: [[8,1]]
+      sortList: [[5,1]]
 @endif
       });
 });

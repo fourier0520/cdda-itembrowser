@@ -49,8 +49,6 @@ class CataclysmCache extends Command
         $repo = $this->laravel->make('Repositories\RepositoryInterface');
         $repo->setSource($localrepo);
         $repo->read();
-
-        print "finished rebuilding database cache\n";
     }
 
     /**
@@ -89,19 +87,14 @@ class CataclysmCache extends Command
         $this->registerIndexer(new Indexers\MonsterGroup());
         $this->registerIndexer(new Indexers\Terrain);
         $this->registerIndexer(new Indexers\Furniture);
-        $this->registerIndexer(new Indexers\Requirement);
     }
 
     private function registerIndexer(Indexers\IndexerInterface $indexer)
     {
-        $this->laravel['events']->listen(
-            'cataclysm.newObject',
-            array($indexer, 'onNewObject')
-        );
+        $this->laravel['events']->listen('cataclysm.newObject',
+            array($indexer, 'onNewObject'));
 
-        $this->laravel['events']->listen(
-            'cataclysm.finishedLoading',
-            array($indexer, 'onFinishedLoading')
-        );
+        $this->laravel['events']->listen('cataclysm.finishedLoading',
+            array($indexer, 'onFinishedLoading'));
     }
 }

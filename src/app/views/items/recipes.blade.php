@@ -74,13 +74,6 @@ array("id"=>$recipe->result->id)) }}<br>
   Components required:<br>
   {{$recipe->components}}<br>
   @endif
-
-  Byproducts:<br>
-  @if ($recipe->hasByproducts)
-  {{$recipe->byproducts}}<br>
-  @else
-  (none)<br>
-  @endif
 </div>
 @endforeach
 </div>
